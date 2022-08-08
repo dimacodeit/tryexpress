@@ -19,5 +19,8 @@
   "homepage": "https://github.com/dimacodeit/tryexpress#readme",
   "dependencies": {
     "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
   }
 }
