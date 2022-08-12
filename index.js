@@ -2,15 +2,15 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-app.use(express.json())
+app.use(express.json());
 
 app.get('/', (req, res) => {
-  console.log(req)
-  res.send('Ты пидор!');
+  if (Object.keys(req.query).length !== 0) return res.json(req.query);
+  return res.send('Лох, отправь query параметры!');
 });
 
 app.post('/', (req, res) => {
-  res.json(req.body)
+  res.json(req.body);
 });
 
 app.use(require('./app/src/routes'));
