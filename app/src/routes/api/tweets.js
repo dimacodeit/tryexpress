@@ -1,5 +1,5 @@
-const db = require('../../../../firebase');
-const timestamp = require('../../utils/timestamp');
+const db = require('@firebase');
+const timestamp = require('@utils/timestamp');
 const router = require('express').Router();
 
 const COLLECTION_NAME = 'tweets';
