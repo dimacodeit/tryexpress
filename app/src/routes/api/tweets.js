@@ -8,6 +8,7 @@ const respMapper = (doc) => {
   const data = doc.data();
   return {
     ...data,
+    id: doc.id,
     date: data.date?.toDate() ?? null,
     updateDate: data.updateDate?.toDate() ?? null,
   };
