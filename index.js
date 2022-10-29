@@ -18,5 +18,5 @@ app.post('/', (req, res) => {
 app.use(require('./app/src/routes'));
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Twitter app listening on port ${port}`);
 });
