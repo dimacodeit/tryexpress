@@ -1,5 +1,6 @@
 const db = require('@firebase');
 const timestamp = require('@utils/timestamp');
+const logger = require('@utils/logger');
 const router = require('express').Router();
 
 const COLLECTION_NAME = 'tweets';
@@ -21,36 +22,37 @@ router.get('/', async (req, res) => {
     res.status(200);
     res.send(tweets.docs.map(respMapper));
   } catch (e) {
-    console.log(e);
+    const message = logger(e, 'tweet route, get method');
     res.status(500);
-    res.send(e);
+    res.send(message);
   }
 });
 
 router.get('/:id', async (req, res) => {
-  if (!req.params.id) {
-    res.status(400);
-    res.send('there is no id');
-    return;
-  }
-
   try {
+    if (!req.params.id) {
+      res.status(400);
+      res.send('there is no id');
+      return;
+    }
+
     res.status(200);
     res.send(req.params);
   } catch (e) {
+    const message = logger(e, 'tweet route, get by id method');
     res.status(500);
-    res.send(e);
+    res.send(message);
   }
 });
 
 router.post('/', async (req, res) => {
-  if (!req.body.name || !req.body.text) {
-    res.status(400);
-    res.send('lack of name or text');
-    return;
-  }
-
   try {
+    if (!req.body.name || !req.body.text) {
+      res.status(400);
+      res.send('lack of name or text');
+      return;
+    }
+
     const tweet = {
       name: req.body.name,
       text: req.body.text,
@@ -66,20 +68,20 @@ router.post('/', async (req, res) => {
     res.status(200);
     res.send(respMapper(createdTweet));
   } catch (e) {
-    console.log(e);
+    const message = logger(e, 'tweet route, post method');
     res.status(500);
-    res.send(e);
+    res.send(message);
   }
 });
 
 router.put('/', async (req, res) => {
-  if (!req.body.name || !req.body.text || !req.body.id) {
-    res.status(400);
-    res.send('lack of name or text or id');
-    return;
-  }
-
   try {
+    if (!req.body.name || !req.body.text || !req.body.id) {
+      res.status(400);
+      res.send('lack of name or text or id');
+      return;
+    }
+
     const tweet = {
       name: req.body.name,
       text: req.body.text,
@@ -94,30 +96,29 @@ router.put('/', async (req, res) => {
     res.status(200);
     res.send(respMapper(updated));
   } catch (e) {
-    console.log(e);
+    const message = logger(e, 'tweet route, put method');
     res.status(500);
-    res.send(e);
+    res.send(message);
   }
 });
 
 router.delete('/:id', async (req, res) => {
-  if (!req.params.id) {
-    res.status(400);
-    res.send('there is no id');
-    return;
-  }
-
   try {
+    if (!req.params.id) {
+      res.status(400);
+      res.send('there is no id');
+      return;
+    }
     const docRef = db.collection(COLLECTION_NAME).doc(req.params.id);
-    const deleted = await docRef.get()
+    const deleted = await docRef.get();
     await docRef.delete();
 
     res.status(200);
     res.send(deleted ? respMapper(deleted) : null);
   } catch (e) {
-    console.log(e);
+    const message = logger(e, 'tweet route, delete method');
     res.status(500);
-    res.send(e);
+    res.send(message);
   }
 });
 
