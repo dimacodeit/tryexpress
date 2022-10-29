@@ -1,19 +1,11 @@
+const router = require('express').Router();
 const db = require('@firebase');
+
 const timestamp = require('@utils/timestamp');
 const logger = require('@utils/logger');
-const router = require('express').Router();
+const respMapper = require('@utils/resp-mapper')
 
 const COLLECTION_NAME = 'tweets';
-
-const respMapper = (doc) => {
-  const data = doc.data();
-  return {
-    ...data,
-    id: doc.id,
-    date: data?.date?.toDate() ?? null,
-    updateDate: data?.updateDate?.toDate() ?? null,
-  };
-};
 
 router.get('/', async (req, res) => {
   try {
@@ -36,8 +28,16 @@ router.get('/:id', async (req, res) => {
       return;
     }
 
-    res.status(200);
-    res.send(req.params);
+    const docRef = db.collection(COLLECTION_NAME).doc(req.params.id);
+    const tweet = await docRef.get();
+
+    if (!tweet.data()?.name) {
+      res.status(404);
+      res.send('Invalid id. Tweet not found');
+    } else {
+      res.status(200);
+      res.send(respMapper(tweet));
+    }
   } catch (e) {
     const message = logger(e, 'tweet route, get by id method');
     res.status(500);
