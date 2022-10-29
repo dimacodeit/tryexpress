@@ -18,8 +18,8 @@
   },
   "homepage": "https://github.com/dimacodeit/tryexpress#readme",
   "_moduleAliases": {
-    "@firebase"  : "./firebase.js",
-    "@utils"  : "./app/src/utils"
+    "@firebase": "./firebase.js",
+    "@utils": "./app/src/utils"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
