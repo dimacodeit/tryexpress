@@ -1,10 +1,9 @@
-require('module-alias/register')
 const router = require('express').Router();
-const db = require('@firebase');
+const db = require('../../../../firebase');
 
-const timestamp = require('@utils/timestamp');
-const logger = require('@utils/logger');
-const respMapper = require('@utils/resp-mapper')
+const timestamp = require('../../utils/timestamp');
+const logger = require('../../utils/logger');
+const respMapper = require('../../utils/resp-mapper')
 
 const COLLECTION_NAME = 'tweets';
 
